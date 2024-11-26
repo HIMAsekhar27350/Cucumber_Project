@@ -1,6 +1,8 @@
 package com.qascript.StepDefs;
 
+import com.qascript.Utils.propertiesUtils;
 import com.qascript.baseClass;
+import com.qascript.pageObject.loginPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -9,22 +11,29 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
+import java.io.IOException;
+import java.util.Properties;
+
+
 public class login1StepDefs extends baseClass {
-    @Given("user enters valid username in the email field")
-    public void userEntersValidUsernameInTheEmailField() throws InterruptedException {
-        driver.findElement(By.id("input-email")).sendKeys("himasekhar123@gmali.com");
-        Thread.sleep(2000);
+    Properties properties=propertiesUtils.loadApplicationProperties();
+
+    public login1StepDefs() throws IOException {
     }
 
+    @Given("user enters valid username in the email field")
+    public void userEntersValidUsernameInTheEmailField() throws InterruptedException, IOException {
+        String username=properties.getProperty("username");
+        loginPage.enterUsername(username);
+    }
     @And("user enters valid password in the email_password field")
     public void userEntersValidPasswordInTheEmail_passwordField() throws InterruptedException {
-        driver.findElement(By.id("input-password")).sendKeys("123456");
-        Thread.sleep(2000);
+        String password=properties.getProperty("password");
+        loginPage.enterPassword(password);
     }
-
     @When("user clicks on the Login button")
     public void userClicksOnTheLoginButton() {
-        driver.findElement(By.xpath("//input[@value='Login']")).click();
+        loginPage.clickLogin();
     }
 
     @Then("user is logged successfull")
